@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="/static/css/rightNow.css">
+    <style>
+        /* 스타일을 적용할 부분을 추가하세요. */
+        #imageContainer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            display: none; /* 초기에는 화면에 표시하지 않음 */
+        }
+
+        #postImage {
+            width: 200%;
+            display: block;
+            margin: 0 auto;
+            position: relative; /* 상대적 위치 지정 */
+        }
+
+        #inputText {
+            width: 200px;
+            margin-top: -50px;
+            border: none;
+            background: transparent;
+            display: block; /* 이 부분이 추가되었습니다 */
+            margin: 0 auto; /* 이 부분이 추가되었습니다 */
+        }
+
+    </style>
+    <title>R!ghtNow</title>
+</head>
+<body>
+    <div class="go-mainButton"><a href="/">
+        <img src="/static/img/1x/GatePostButton.webp"/>
+    </a></div>
+
+    <div id="imageContainer">
+        <img id="postImage" src="" alt="Post Image">
+        <input type="text" id="inputText" >
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var inputText = document.getElementById('inputText');
+            var imageContainer = document.getElementById('imageContainer');
+            var postImage = document.getElementById('postImage');
+            var x_coordinate, y_coordinate; // 좌표 변수를 선언합니다.
+
+            function handleEnter(e) {
+                if (e.key === 'Enter') {
+                    // 여기서 좌표를 사용합니다.
+                    var image_number = Math.floor(Math.random() * 10) + 1;
+                    var userInput = inputText.value;
+
+                    imageContainer.style.display = 'none';
+
+                    var size = Math.floor(Math.random() * 5) + 1;
+                    var rotation = Math.floor(Math.random() * 3) + 1;
+
+                    console.log(`x:${x_coordinate} y:${y_coordinate} 이미지 넘버:${image_number} 내용:${userInput} 사이즈:${size} 회전:${rotation}`);
+                    var data = {
+                        x_coordinate: x_coordinate,
+                        y_coordinate: y_coordinate,
+                        image_number: image_number,
+                        content: userInput,
+                        size: size,
+                        rotation: rotation
+                    };
+
+                    axios.post('/api/saveData', data)
+                        .then(function (response) {
+                            console.log('데이터가 성공적으로 전송되었습니다.', response);
+                        })
+                        .catch(function (error) {
+                            console.error('데이터 전송 중 오류가 발생했습니다.', error);
+                        });
+
+                    // 이벤트 핸들러 제거
+                    inputText.removeEventListener('keyup', handleEnter);
+                }
+            }
+
+            document.addEventListener('click', function (event) {
+                x_coordinate = event.clientX; // 클릭 시에 좌표 값을 업데이트합니다.
+                y_coordinate = event.clientY; // 클릭 시에 좌표 값을 업데이트합니다.
+
+                var image_number = Math.floor(Math.random() * 10) + 1;
+
+                // 이미지를 중앙에 표시
+                imageContainer.style.display = 'block';
+                postImage.src = '/static/img/1x/post_image_' + image_number + '.webp';
+
+                // input focus 이벤트 처리
+                inputText.value = ''; // 클릭할 때마다 입력값 초기화
+                inputText.focus(); // 자동으로 포커스를 주어 키보드 입력을 받을 수 있게 함
+
+                // 엔터 키 이벤트 핸들러 등록
+                inputText.addEventListener('keyup', handleEnter);
+            });
+        });
+    </script>
+</body>
+</html>

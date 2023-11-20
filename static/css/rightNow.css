@@ -1,0 +1,19 @@
+html{
+    /* 드래그 방지 */
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+html, body{
+    background-color: #999999;
+    height: 100%;
+    margin: 0; /* 기본 margin 제거 */
+    
+}
+.go-mainButton {
+    position: relative;
+    left: 40px; /* 조절하고 싶은 오른쪽으로의 이동 거리 (원하는 값으로 조정) */
+    top:20px;
+}

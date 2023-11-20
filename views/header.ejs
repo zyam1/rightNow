@@ -1,0 +1,70 @@
+<style>
+html{
+     /* 드래그 방지 */
+     -ms-user-select: none;
+     -moz-user-select: -moz-none;
+     -webkit-user-select: none;
+     -khtml-user-select: none;
+     user-select: none;
+}
+
+body {
+    /* overflow-y: overlay; 해야 스크롤바가 공간을 차지 안함. */
+    overflow-y: overlay;
+    background-size: cover;
+  
+    /* 스크롤이 디폴트로 있도록 설정 */
+    overflow: scroll;
+    margin: 0px;
+    padding: 0px;
+}
+.container-one{
+    display: flex;
+    justify-content:space-between;
+    height: 80px;
+}
+.container-two{
+    display: flex;
+    justify-content:center;
+   
+}
+.right-now{
+    display: flex;
+}
+.header-ul{
+    margin: 5px;
+}
+a{
+    text-decoration:none;
+}
+.header-maincontainer{
+    background-color: white;
+}
+
+</style>
+
+
+<div>
+    <header class="header-maincontainer">
+        <div class="container-one">
+            <div class="logo"><a href="/">로고</a></div>
+            <div class="right-now">
+                <div><a href="/rightNow">rightNow이미지</a></div>
+                <div>검색창</div>
+            </div>
+            <div>시계(현재시간)</div>
+        </div>
+
+        <hr/>
+
+        <div class="container-two">
+            <ul class="header-ul">
+                <a href="/mainRelation">인간관계</a>
+                <a href="/mainHealth">신체문제</a>
+                <a href="/mainTogther">함께모여</a>
+                <a href="/mainEmergency">긴급해요</a>
+            </ul>
+        </div>
+
+    </header>
+</div>
