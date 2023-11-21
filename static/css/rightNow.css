@@ -17,3 +17,9 @@ html, body{
     left: 40px; /* 조절하고 싶은 오른쪽으로의 이동 거리 (원하는 값으로 조정) */
     top:20px;
 }
+
+input{
+    background-color:transparent;
+    border: none;
+}
+input:focus {outline: none;}

@@ -7,7 +7,10 @@ html{
      -khtml-user-select: none;
      user-select: none;
 }
-
+hr{
+    margin: 0%;
+    padding: 0%;
+}
 body {
     /* overflow-y: overlay; 해야 스크롤바가 공간을 차지 안함. */
     overflow-y: overlay;
@@ -19,20 +22,33 @@ body {
     padding: 0px;
 }
 .container-one{
+    padding-left: 40px;
+    padding-right: 20px;
+    position: relative;
+    top: 9px;
     display: flex;
     justify-content:space-between;
     height: 80px;
+    align-items:center;
+    margin-bottom: 9px;
+    
 }
 .container-two{
     display: flex;
     justify-content:center;
+    height: 40px;
+    align-items:center;
    
 }
 .right-now{
     display: flex;
+    align-items:center;
+    position: relative;
+    left: 100px;
+    
 }
 .header-ul{
-    margin: 5px;
+    margin: 7px;
 }
 a{
     text-decoration:none;
@@ -41,18 +57,30 @@ a{
     background-color: white;
 }
 
+.RightNowLogo{
+    padding-right: 15px;
+}
+
+.header-ul a {
+ margin-right: 10px;
+ color: #356FCA;
+}
+#clock{
+    font-size:x-large;
+    font-weight: bold;
+}
 </style>
 
 
 <div>
     <header class="header-maincontainer">
         <div class="container-one">
-            <div class="logo"><a href="/">로고</a></div>
+            <div class="logo"><a href="/"><img src="/static/img/logos/SVG/homeLogo.svg" alt="" width="43"></a></div>
             <div class="right-now">
-                <div><a href="/rightNow">rightNow이미지</a></div>
-                <div>검색창</div>
+                <div class="RightNowLogo"><a href="/rightNow"><img src="/static/img/logos/SVG/RightNowLogo.svg" width="270"></a></div>
+                <div><img src="/static/img/logos/SVG/searchLogo.svg" alt="" width="290"> </div>
             </div>
-            <div>시계(현재시간)</div>
+            <div  id="clock"></div>
         </div>
 
         <hr/>
@@ -68,3 +96,43 @@ a{
 
     </header>
 </div>
+
+<script>
+    var clockTarget = document.getElementById("clock");
+
+    function clock() {
+    var date = new Date();
+
+
+ 
+    var hours = date.getHours();
+
+    // 시간을 받아오고 
+    var minutes = date.getMinutes();
+
+    // 분도 받아옵니다.
+    var seconds = date.getSeconds();
+
+    // 초까지 받아온후 
+    clockTarget .innerText =`${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes }`  : minutes }:${seconds < 10 ? `0${seconds }`  : seconds }`;
+    }
+
+    function init() {
+
+    clock();
+
+    // 최초에 함수를 한번 실행시켜주고 
+    setInterval(clock, 1000);
+
+    // setInterval이라는 함수로 매초마다 실행을 해줍니다.
+
+    // setInterval은 첫번째 파라메터는 함수이고 두번째는 시간인데 밀리초단위로 받습니다. 1000 = 1초 
+
+    }
+
+
+
+    init();
+
+
+</script>

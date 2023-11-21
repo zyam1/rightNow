@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- css -->
-    <link rel="stylesheet" href="/static/css/main.css">
+        <!-- css -->
+        <link rel="stylesheet" href="/static/css/main.css">
     <title>Gate긴급해요</title>
+    <style>
+        .main-image{
+            display: flex;
+            align-items:center;
+           
+            
+        }
+        .main-image img{
+            position: relative;
+            left: 80px;
+            bottom: 15px;
+        }
+        .health-list img{
+            position: relative;
+            left: 620px;
+            top: 70px;
+        }
+    </style>
 </head>
 <body>
     <header class="container">
         <div><%- include('./header.ejs') %></div>
     </header>
-
     <div class="main-image">
         <!-- 안에 각자 다른 사진 -->
+        <img src="/static/img/logos/emer.svg" alt="" height="74%">
+    </div>
+    <div class="health-list">
+        <img src="/static/img/logos/emerContents.svg" alt="" height="730px">
     </div>
 </body>
 </html>

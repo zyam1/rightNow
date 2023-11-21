@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 51.24 46.28">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #009ee2;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: url(#radial-gradient-2);
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        fill: url(#radial-gradient);
+      }
+
+      .cls-4 {
+        fill: url(#radial-gradient-3);
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="25.44" cy="7.44" fx="25.44" fy="7.44" r="7.44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#e31212"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-2" cx="7.44" cy="38.84" fx="7.44" fy="38.84" r="7.44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#009ee2"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-3" cx="43.8" cy="38.84" fx="43.8" fy="38.84" r="7.44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#009540"/>
+    </radialGradient>
+  </defs>
+  <g id="_레이어_1-2" data-name="레이어 1">
+    <g>
+      <polygon class="cls-1" points="25.36 7.08 7.04 38.81 43.69 38.81 25.36 7.08"/>
+      <circle class="cls-3" cx="25.44" cy="7.44" r="7.44"/>
+      <circle class="cls-2" cx="7.44" cy="38.84" r="7.44"/>
+      <circle class="cls-4" cx="43.8" cy="38.84" r="7.44"/>
+    </g>
+  </g>
+</svg>
