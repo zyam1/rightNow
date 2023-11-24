@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
     <link rel="stylesheet" href="/static/css/rightNow.css">
+    <!-- cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <style>
         /* 스타일을 적용할 부분을 추가하세요. */
         #modalContainer {
@@ -47,7 +50,9 @@
     </div>
 
     <div id="modalContainer">
-        <input type="text" id="inputText">
+        
+            <input type="text" id="inputText">
+        
     </div>
 
     <img  class="centerImg" src="/static/img/logos/RightNowCenter.svg" alt="">
@@ -87,13 +92,14 @@
                     rotation: rotation
                 };
 
-                // axios.post('/api/saveData', data)
-                //     .then(function (response) {
-                //         console.log('데이터가 성공적으로 전송되었습니다.', response);
-                //     })
-                //     .catch(function (error) {
-                //         console.error('데이터 전송 중 오류가 발생했습니다.', error);
-                //     });
+                axios.post('/uploadPost', data)
+                    .then(function (response) {
+                        console.log('데이터가 성공적으로 전송되었습니다.', response);
+                        location.reload();
+                    })
+                    .catch(function (error) {
+                        console.log('데이터 전송 중 에러 발생:', error);
+                    });
             }
 
             document.addEventListener('click', function (event) {
@@ -108,7 +114,41 @@
                     handleSubmit();
                 }
             });
+           
         });
+
+        //post 표시
+        function getPost() {
+            // 서버에 전달할 데이터 객체 (예: data)
+            const data = {
+                // 데이터 필드 추가 (필요에 따라)
+                // 예: key: value,
+            };
+
+            // axios를 사용하여 서버에 POST 요청을 보냅니다.
+            axios.post('/getPost', data)
+                .then((res) => {
+                    // 서버로부터 받은 데이터를 콘솔에 출력
+                    console.log(res.data);
+
+                    // 여기서 서버로부터 받은 데이터를 활용하여 필요한 작업을 수행할 수 있습니다.
+                    // 예를 들어, 받은 데이터를 가지고 동적으로 HTML을 생성하거나 화면에 표시할 수 있습니다.
+
+                    // 예시: 받은 데이터를 반복하여 화면에 추가
+                    for (let i = 0; i < res.data.length; i++) {
+                        // res.data[i]를 이용하여 각각의 데이터에 접근할 수 있습니다.
+                         예시: $("body").append(`<div>${res.data[i].content}</div>`);
+                    }
+                })
+                .catch((error) => {
+                    // 오류 발생 시 처리
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+// 함수 호출
+        getPost();
+
     </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 const express = require("express");
 const controller = require("../controller/index");
+const Pocstcontroller = require("../controller/Cpost");
 const router = express.Router()
 
 //메인 페이지
@@ -19,5 +20,11 @@ router.get("/mainEmergency", controller.mainEmergency);
 
 //rightNow페이지
 router.get("/rightNow", controller.rightNow);
+
+//포스트업로드
+router.post("/uploadPost", Pocstcontroller.UploadPost);
+
+//포스트 Read
+router.post("/GetPost",Pocstcontroller.GetPost);
 
 module.exports = router;
