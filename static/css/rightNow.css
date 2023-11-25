@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'chilgok';
+    src: url('/static/font/Chilgok_Cye.ttf') format('truetype');
+}
+* {
+    font-family: 'chilgok';
+    color: rgb(56, 56, 56);
+}
 html{
     /* 드래그 방지 */
     -ms-user-select: none;
@@ -21,5 +29,6 @@ html, body{
 input{
     background-color:transparent;
     border: none;
+    
 }
 input:focus {outline: none;}

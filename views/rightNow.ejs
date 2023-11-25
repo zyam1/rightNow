@@ -20,17 +20,21 @@
             padding: 20px;
             text-align: center;
             z-index: 1000;
-            width: 300px; /* 정사각형으로 만들기 위한 가로 크기 설정 */
-            height: 300px; /* 정사각형으로 만들기 위한 세로 크기 설정 */
+            width: 30vw; /* 정사각형으로 만들기 위한 가로 크기 설정 */
+            height: 30vw; /* 정사각형으로 만들기 위한 세로 크기 설정 */
+            
         }
 
         #inputText {
-            width: 200px;
+            width: 80%;
+            height: 80%;
             margin-top: 20px;
             border: none;
             background: transparent;
             display: block;
             margin: 0 auto;
+            font-size: xx-large;
+            text-align: center;
         }
         .centerImg {
             position: fixed;
@@ -45,7 +49,7 @@
 <body>
     <div class="go-mainButton">
         <a href="/">
-            <img src="/static/img/1x/GatePostButton.webp" width="10%"/>
+            <img src="/static/img/1x/GatePostButton.svg" width="10%"/>
         </a>
     </div>
 
@@ -61,10 +65,10 @@
         document.addEventListener('DOMContentLoaded', function () {
             var modalContainer = document.getElementById('modalContainer');
             var inputText = document.getElementById('inputText');
-            var x_coordinate, y_coordinate;
+            var x_coordinate, y_coordinate,image_number ;
 
             function showModal() {
-                modalContainer.style.display = 'block';
+                modalContainer.style.display = 'flex';
                 inputText.value = ''; // 입력값 초기화
                 inputText.focus();
             }
@@ -76,7 +80,7 @@
             function handleSubmit() {
                 hideModal();
 
-                var image_number = Math.floor(Math.random() * 10) + 1;
+                
                 var userInput = inputText.value;
 
                 var size = Math.floor(Math.random() * 5) + 1;
@@ -94,18 +98,34 @@
 
                 axios.post('/uploadPost', data)
                     .then(function (response) {
-                        console.log('데이터가 성공적으로 전송되었습니다.', response);
+                        console.log('데이터가 성공적으로 전송되었습니다.' );
                         location.reload();
+                        
                     })
                     .catch(function (error) {
-                        console.log('데이터 전송 중 에러 발생:', error);
+                        console.log('데이터 전송 중 에러 발생:', );
                     });
             }
 
             document.addEventListener('click', function (event) {
                 x_coordinate = event.clientX;
                 y_coordinate = event.clientY;
-
+                image_number = Math.floor(Math.random() * 25) + 1;
+                if (image_number === 1 || image_number === 10 || image_number === 11 || image_number === 12 || image_number === 21) {
+                    modalContainer.style.backgroundColor = '#FAFAAA';
+                }
+                else if (image_number === 2 || image_number === 9 || image_number === 13 || image_number === 14 || image_number === 22) {
+                    modalContainer.style.backgroundColor = '#FFB6C1';
+                }
+                else if (image_number === 3 || image_number === 8 || image_number === 15 || image_number === 18 || image_number === 23) {
+                    modalContainer.style.backgroundColor = '#C7EEEB';
+                }
+                else if (image_number === 4 || image_number === 7 || image_number === 16 || image_number === 19 || image_number === 24) {
+                    modalContainer.style.backgroundColor = '#D0FC5C';
+                }
+                else {
+                    modalContainer.style.backgroundColor = '#4371C4'; // 기본 배경 색상
+                }
                 showModal();
             });
 
@@ -137,7 +157,7 @@
                     // 예시: 받은 데이터를 반복하여 화면에 추가
                     for (let i = 0; i < res.data.length; i++) {
                         // res.data[i]를 이용하여 각각의 데이터에 접근할 수 있습니다.
-                         예시: $("body").append(`<div>${res.data[i].content}</div>`);
+                         $("body").append(`<div>${res.data[i].content}</div>`);
                     }
                 })
                 .catch((error) => {

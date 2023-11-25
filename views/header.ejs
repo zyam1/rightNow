@@ -1,86 +1,117 @@
 <style>
-html{
-     /* 드래그 방지 */
-     -ms-user-select: none;
-     -moz-user-select: -moz-none;
-     -webkit-user-select: none;
-     -khtml-user-select: none;
-     user-select: none;
-}
-hr{
-    margin: 0%;
-    padding: 0%;
-}
-body {
-    /* overflow-y: overlay; 해야 스크롤바가 공간을 차지 안함. */
-    overflow-y: overlay;
-    background-size: cover;
-  
-    /* 스크롤이 디폴트로 있도록 설정 */
-    overflow: scroll;
-    margin: 0px;
-    padding: 0px;
-}
-.container-one{
-    padding-left: 40px;
-    padding-right: 20px;
-    position: relative;
-    top: 9px;
-    display: flex;
-    justify-content:space-between;
-    height: 80px;
-    align-items:center;
-    margin-bottom: 9px;
+    @font-face {
+        font-family: 'clock';
+        src: url('/static/font/DS-DIGIB.TTF') format('truetype');
+    }   
     
-}
-.container-two{
-    display: flex;
-    justify-content:center;
-    height: 40px;
-    align-items:center;
-   
-}
-.right-now{
-    display: flex;
-    align-items:center;
-    position: relative;
-    left: 100px;
+    html {
+        /* 드래그 방지 */
+        -ms-user-select: none;
+        -moz-user-select: -moz-none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+    }
     
-}
-.header-ul{
-    margin: 7px;
-}
-a{
-    text-decoration:none;
-}
-.header-maincontainer{
-    background-color: white;
-}
-
-.RightNowLogo{
-    padding-right: 15px;
-}
-
-.header-ul a {
- margin-right: 10px;
- color: #356FCA;
-}
-#clock{
-    font-size:x-large;
-    font-weight: bold;
-}
+    hr {
+        width: 100%;
+        margin: 0%;
+        padding: 0%;
+    }
+    
+    body {
+        /* overflow-y: overlay; 해야 스크롤바가 공간을 차지 안함. */
+        overflow-y: overlay;
+        background-size: cover;
+      
+        /* 스크롤이 디폴트로 있도록 설정 */
+        overflow: scroll;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+    }
+    
+    .container-one {
+        padding-left: 40px;
+        padding-right: 20px;
+        position: relative;
+        top: 9px;
+        display: flex;
+        justify-content: space-between;
+        height: 80px;
+        align-items: center;
+        margin-bottom: 9px;
+    }
+    
+    .container-two {
+        display: flex;
+        justify-content: center;
+        height: 40px;
+        align-items: center;
+    }
+    
+    .right-now {
+        display: flex;
+        align-items: center;
+        position: relative;
+        left: 100px;
+        width: auto;
+    }
+    
+    .header-ul {
+        margin: 7px;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
+    .header-maincontainer {
+        background-color: white;
+    }
+    
+    .RightNowLogo {
+        padding-right: 15px;
+    }
+    
+    .header-ul a {
+        margin-right: 10px;
+        color: #356FCA;
+    }
+    
+    .clock-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center; /* 추가적으로 텍스트 정렬을 중앙으로 설정 */
+    }
+    
+    #clock {
+        font-family: 'clock';
+        font-size:300%;
+        font-weight: bold;
+        color: #FF0000;
+        position: absolute;
+        top: 50%; /* 텍스트의 상단을 이미지의 중앙으로 위치시킴 */
+        left: 50%; /* 텍스트의 좌측을 이미지의 중앙으로 위치시킴 */
+        transform: translate(-50%, -50%); /* 텍스트의 중앙을 이미지의 중앙에 맞춤 */
+    }
 </style>
-
 
 <div>
     <header class="header-maincontainer">
+        <div class="clock-box">
+            <img src="/static/img/logos/topClock.svg" alt="" width="100%">
+            <div class="clock-text" id="clock"></div>
+        </div>
         <div class="container-one">
-            <div class="logo"><a href="/"><img src="/static/img/logos/SVG/homeLogo.svg" alt="" width="43"></a></div>
+            <div class="logo"><a href="/"><img src="/static/img/logos/SVG/homeLogo.svg" alt="" width="43px"></a></div>
             <div class="right-now">
-                <div class="RightNowLogo"><a href="/rightNow"><img src="/static/img/logos/SVG/RightNowLogo.svg" width="270"></a></div>
+                <div class="RightNowLogo"><a href="/rightNow"><img src="/static/img/logos/SVG/RightNowLogo.svg" width="100%"></a></div>
                 <div><img src="/static/img/logos/SVG/searchLogo.svg" alt="" width="290"> </div>
             </div>
-            <div  id="clock"></div>
+            <div>로고</div>
         </div>
 
         <hr/>
@@ -93,7 +124,6 @@ a{
                 <a href="/mainEmergency">긴급해요</a>
             </ul>
         </div>
-
     </header>
 </div>
 
@@ -101,38 +131,17 @@ a{
     var clockTarget = document.getElementById("clock");
 
     function clock() {
-    var date = new Date();
-
-
- 
-    var hours = date.getHours();
-
-    // 시간을 받아오고 
-    var minutes = date.getMinutes();
-
-    // 분도 받아옵니다.
-    var seconds = date.getSeconds();
-
-    // 초까지 받아온후 
-    clockTarget .innerText =`${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes }`  : minutes }:${seconds < 10 ? `0${seconds }`  : seconds }`;
+        var date = new Date();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        clockTarget.innerText = `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
     }
 
     function init() {
-
-    clock();
-
-    // 최초에 함수를 한번 실행시켜주고 
-    setInterval(clock, 1000);
-
-    // setInterval이라는 함수로 매초마다 실행을 해줍니다.
-
-    // setInterval은 첫번째 파라메터는 함수이고 두번째는 시간인데 밀리초단위로 받습니다. 1000 = 1초 
-
+        clock();
+        setInterval(clock, 1000);
     }
 
-
-
     init();
-
-
 </script>

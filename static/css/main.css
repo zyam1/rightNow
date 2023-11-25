@@ -1,6 +1,12 @@
 .main-image{
+    position: relative;
     margin: 0px;
     padding: 0px;
-    height: 470px;
+    height: 30%px;
+    width: 100%;
     background-color: #356FCA ;
+}
+.main-image img{
+    position:absolute;
+    max-width:100%
 }

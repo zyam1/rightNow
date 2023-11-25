@@ -9,6 +9,7 @@ exports.UploadPost =async (req, res)=> {
         await Post.create({
             x_coordinate,  y_coordinate, image_number, content , size ,rotation
           });
+          res.status(200).json({ message: "데이터가 성공적으로 전송되었습니다." });
     } catch(error){
         console.error();
         res.status(500).json({ message: "서버 오류 발생" });
