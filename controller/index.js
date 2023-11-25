@@ -26,3 +26,8 @@ exports.mainEmergency = (req, res) => {
 exports.rightNow = (req, res) => {
     res.render("rightNow");
 };
+
+//모든글 삭제페이지 렌더
+exports.DeleteAll = (req, res) => {
+    res.render("deleteAll");
+};

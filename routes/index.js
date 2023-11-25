@@ -15,6 +15,9 @@ router.get("/mainRelation", controller.mainRelation);
 //신체문제 페이지
 router.get("/mainHealth", controller.mainHealth);
 
+//모든글 삭제페이지 렌더
+router.get("/deleteAll", controller.DeleteAll);
+
 //긴급해요 페이지
 router.get("/mainEmergency", controller.mainEmergency);
 
@@ -26,5 +29,10 @@ router.post("/uploadPost", Pocstcontroller.UploadPost);
 
 //포스트 Read
 router.post("/GetPost",Pocstcontroller.GetPost);
+
+//포스트 truncate
+router.post("/truncatePost",Pocstcontroller.truncatePost);
+
+
 
 module.exports = router;

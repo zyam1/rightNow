@@ -39,12 +39,24 @@ exports.GetPost = async (req, res) => {
 
 
 //모두 삭제
-exports.DeletePost =async (req, res)=> {
-    //데이터 정의
-    try{
 
-    } catch(error){
-        console.error();
+
+exports.truncatePost = async (req, res) => {
+    try {
+        const password = req.body.password;
+
+        // 안전한 비밀번호 비교를 위해 === 사용
+        if (password === "qlalfqjsh732") {
+            await Post.destroy({
+                truncate: true
+            });
+
+            res.status(200).json({ success: true, message: '데이터가 삭제되었습니다.' });
+        } else {
+            res.status(403).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: '서버 오류' });
     }
-    
-}
+};

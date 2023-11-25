@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>deleteAll</title>
+</head>
+<body>
+
+    <form id="truncatePostForm">
+        <input type="password" id="passwordInput" placeholder="비밀번호를 입력 해주세요">
+        <button type="button" onclick="DeleteAll()">삭제</button>
+    </form>
+
+<script>
+function DeleteAll(){
+    var password = document.getElementById('passwordInput').value;
+    // axios로 서버에 비밀번호 전송
+    axios.post('/truncatePost', { password: password })
+                .then(function (res) {
+                    // 서버로부터의 응답에 따른 처리
+                    alert(res.data.message);
+                    console.log(res.data);
+                })
+                .catch(function (error) {
+                    // 오류 처리
+                    alert(res.data.message);
+                    console.error(error);
+                });
+}
+  
+</script>
+</body>
+</html>
