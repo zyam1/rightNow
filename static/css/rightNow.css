@@ -18,17 +18,35 @@ html, body{
     background-color: #999999;
     height: 100%;
     margin: 0; /* 기본 margin 제거 */
+    overflow: hidden;
     
 }
 .go-mainButton {
     position: relative;
     left: 40px; /* 조절하고 싶은 오른쪽으로의 이동 거리 (원하는 값으로 조정) */
     top:20px;
+    z-index: 1000;
 }
 
-input{
+textarea{
     background-color:transparent;
     border: none;
     
 }
-input:focus {outline: none;}
+textarea:focus {outline: none;}
+
+.post {
+    position: absolute;
+
+}
+.addpost-content{
+    position: absolute;
+        top: 45%; /* 텍스트의 상단을 이미지의 중앙으로 위치시킴 */
+        left: 51%; /* 텍스트의 좌측을 이미지의 중앙으로 위치시킴 */
+        transform: translate(-50%, -50%); /* 텍스트의 중앙을 이미지의 중앙에 맞춤 */
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 80%; 
+        text-align: center;
+}
