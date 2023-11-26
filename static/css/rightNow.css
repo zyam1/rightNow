@@ -26,6 +26,7 @@ html, body{
     left: 40px; /* 조절하고 싶은 오른쪽으로의 이동 거리 (원하는 값으로 조정) */
     top:20px;
     z-index: 1000;
+    display: inline;
 }
 
 textarea{
@@ -44,9 +45,13 @@ textarea:focus {outline: none;}
         top: 45%; /* 텍스트의 상단을 이미지의 중앙으로 위치시킴 */
         left: 51%; /* 텍스트의 좌측을 이미지의 중앙으로 위치시킴 */
         transform: translate(-50%, -50%); /* 텍스트의 중앙을 이미지의 중앙에 맞춤 */
-        word-wrap: break-word;
+        word-wrap: break-word !important;
         overflow: hidden;
-        text-overflow: ellipsis;
-        max-height: 80%; 
+        text-overflow: ellipsis ;
+        max-height: 100% !important; 
+        max-width: 80%;
         text-align: center;
+     overflow-wrap: break-word !important;
+     max-height: 80%;
 }
+

@@ -104,7 +104,7 @@
                 event.stopPropagation(); // 상위 이벤트 전파 중지
             });
 
-
+            
             function showModal() {
                 if (!$('.post.active').length){
                     modalContainer.style.display = 'flex';
@@ -153,7 +153,7 @@
                         
                         <div class="post">
                             <img src="/static/img/1x/post_image_${image_number}.svg" alt="Post Image">
-                            <div class="addpost-content"><p class="word-wrap">${userInput}</p></div>
+                            <div class="addpost-content">${userInput}</div>
                         </div>
                         
                     
@@ -165,7 +165,7 @@
                         left: x_coordinate- (size * 50) / 2 + 'px',
                         top: y_coordinate- (size * 50) / 2 + 'px',
                         width: size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
-                        transform: `rotate(${rotation}deg)`,//회전//정령부분에선 이걸빼면됨
+                       
                         padding : "0px",
                     });
                     newDiv.on('contextmenu', function (event) {
@@ -245,7 +245,7 @@
                         
                             <div class="post">
                                 <img src="/static/img/1x/post_image_${res.data[i].image_number}.svg" alt="Post Image">
-                                <div class="addpost-content"><p class="word-wrap">${res.data[i].content}</p></div>
+                                <div class="addpost-content">${res.data[i].content}</div>
                             </div>
                             
                         
@@ -257,7 +257,7 @@
                             left: res.data[i].x_coordinate- (res.data[i].size * 50) / 2 + 'px',
                             top: res.data[i].y_coordinate- (res.data[i].size * 50) / 2 + 'px',
                             width: res.data[i].size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
-                            transform: `rotate(${res.data[i].rotation * 1.5}deg)`,//회전//정령부분에선 이걸빼면됨
+                         
                             padding : "0px",
                         });
                         newDiv.on('contextmenu', function (event) {

@@ -27,6 +27,11 @@ exports.rightNow = (req, res) => {
     res.render("rightNow");
 };
 
+//rightNowSort
+exports.rightNowSort = (req, res) => {
+    res.render("rightNowSort");
+};
+
 //모든글 삭제페이지 렌더
 exports.DeleteAll = (req, res) => {
     res.render("deleteAll");
