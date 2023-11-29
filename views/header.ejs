@@ -108,12 +108,12 @@
             <div class="clock-text" id="clock"></div>
         </div>
         <div class="container-one">
-            <div class="logo"><a href="/"><img src="/static/img/logos/SVG/homeLogo.svg" alt="" width="50px"></a></div>
+            <div class="logo"><a href="/main"><img src="/static/img/logos/SVG/homeLogo.svg" alt="" width="50px"></a></div>
             <div class="right-now">
-                <div class="RightNowLogo"><a href="/rightNow"><img src="/static/img/logos/SVG/RightNowLogo.svg" width="100%"></a></div>
+                <div class="RightNowLogo"><a href="/"><img src="/static/img/logos/SVG/RightNowLogo.svg" width="100%"></a></div>
                 <div><img src="/static/img/logos/SVG/searchLogo.svg" alt="" width="290"> </div>
             </div>
-            <div onclick="scrollToBottom()">
+            <div onclick="scrollToBottom()" style="cursor: pointer;">
                 <img src="/static/img/logos/rightBox-button.svg" alt=""width="50px">
             </div>
         </div>
@@ -150,7 +150,8 @@
     //스크롤 내리는 함수
     function scrollToBottom() {
             // 세로 스크롤을 페이지의 가장 아래로 이동
-            window.scrollTo(0, document.body.scrollHeight);
+            var location = document.querySelector("#move").offsetTop;
+            window.scrollTo({top:location, behavior:'smooth'});
         }
     function init() {
         clock();

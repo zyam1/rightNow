@@ -4,7 +4,7 @@ const Pocstcontroller = require("../controller/Cpost");
 const router = express.Router()
 
 //메인 페이지
-router.get("/", controller.index);
+router.get("/main", controller.index);
 
 //모두모여 페이지
 router.get("/mainTogther", controller.mainTogther);
@@ -22,7 +22,7 @@ router.get("/deleteAll", controller.DeleteAll);
 router.get("/mainEmergency", controller.mainEmergency);
 
 //rightNow 비정렬페이지
-router.get("/rightNow", controller.rightNow);
+router.get("/", controller.rightNow);
 
 //rightNow 정렬페이지
 router.get("/rightNowSort", controller.rightNowSort);
