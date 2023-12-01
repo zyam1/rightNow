@@ -84,6 +84,12 @@
         </a>
     </div>
 
+    <div class="sort-button"  id="sort-button">
+        <a href="/rightNowSort">
+            <img src="/static/img/logos/SVG/sort.svg" width="100%"/>
+        </a>
+    </div>
+
     <div id="modalContainer">
         
         <textarea id="inputText" placeholder=""></textarea>
@@ -103,7 +109,9 @@
             document.getElementById('goMainButton').addEventListener('click', function (event) {
                 event.stopPropagation(); // 상위 이벤트 전파 중지
             });
-
+            document.getElementById('sort-button').addEventListener('click', function (event) {
+                event.stopPropagation(); // 상위 이벤트 전파 중지
+            });
 
             function showModal() {
                 if (!$('.post.active').length){

@@ -84,6 +84,12 @@
         </a>
     </div>
 
+    <div class="sort-button"  id="sort-button">
+        <a href="/">
+            <img src="/static/img/logos/SVG/Dsort.svg" width="100%"/>
+        </a>
+    </div>
+
     <div id="modalContainer">
         
         <textarea id="inputText" placeholder=""></textarea>
@@ -98,9 +104,13 @@
         document.addEventListener('DOMContentLoaded', function () {
             var modalContainer = document.getElementById('modalContainer');
             var inputText = document.getElementById('inputText');
-            var x_coordinate, y_coordinate,image_number ;
+            var x_coordinate, y_coordinate,image_number ,size ,rotation;
+            var newDiv;
 
             document.getElementById('goMainButton').addEventListener('click', function (event) {
+                event.stopPropagation(); // 상위 이벤트 전파 중지
+            });
+            document.getElementById('sort-button').addEventListener('click', function (event) {
                 event.stopPropagation(); // 상위 이벤트 전파 중지
             });
 
@@ -132,9 +142,7 @@
                 
                 var userInput = inputText.value;
 
-                var size = Math.floor(Math.random() * 5) + 1;
-                var rotation = Math.floor(Math.random() * 9) - 4;
-
+                
 
                 console.log(`x:${x_coordinate} y:${y_coordinate} 이미지 넘버:${image_number} 내용:${userInput} 사이즈:${size} 회전:${rotation}`);
                 var data = {
@@ -149,39 +157,7 @@
                 axios.post('/uploadPost', data)
                     .then(function (response) {
                         console.log('데이터가 성공적으로 전송되었습니다.' );
-                        const newDiv = $(`
-                        
-                        <div class="post">
-                            <img src="/static/img/1x/post_image_${image_number}.svg" alt="Post Image">
-                            <div class="addpost-content">${userInput}</div>
-                        </div>
-                        
-                    
-                        `);
-
-                    const fontSize = size * 7.5; // 예시: size에 따라 적절한 값을 조절
-                    newDiv.find('.addpost-content').css('font-size', fontSize*1.2 + 'px');
-                    newDiv.css({
-                        left: x_coordinate- (size * 50) / 2 + 'px',
-                        top: y_coordinate- (size * 50) / 2 + 'px',
-                        width: size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
-                       
-                        padding : "0px",
-                    });
-                    newDiv.on('contextmenu', function (event) {
-                            event.preventDefault();
-                            if (!$('.post.active').length) {
-                                $(this).toggleClass('active');
-                            }else{
-                                $('.post.active').removeClass('active');
-                            }
-                        });
-                     $("body").append(newDiv);
-
-
-
-
-                        //location.reload();
+      
                         
                     })
                     .catch(function (error) {
@@ -193,6 +169,9 @@
                 x_coordinate = event.clientX;
                 y_coordinate = event.clientY;
                 image_number = Math.floor(Math.random() * 25) + 1;
+                size = Math.floor(Math.random() * 5) + 1;
+                rotation = Math.floor(Math.random() * 9) - 4;
+
                 if (image_number === 1 || image_number === 10 || image_number === 11 || image_number === 12 || image_number === 21) {
                     modalContainer.style.backgroundColor = '#FAFAAA';
                 }
@@ -209,6 +188,53 @@
                     modalContainer.style.backgroundColor = '#4371C4'; // 기본 배경 색상
                 }
                 showModal();
+
+                //
+                newDiv = $(`
+                        
+                        <div class="post">
+                            <img src="/static/img/1x/post_image_${image_number}.svg" alt="Post Image">
+                            <div class="addpost-content"></div>
+                        </div>
+                        
+                    
+                `);
+
+                newDiv.css({
+                        left: x_coordinate- (size * 50) / 2 + 'px',
+                        top: y_coordinate- (size * 50) / 2 + 'px',
+                        width: size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
+                       
+                        padding : "0px",
+                });
+
+                newDiv.on('contextmenu', function (event) {
+                            event.preventDefault();
+                            if (!$('.post.active').length) {
+                                $(this).toggleClass('active');
+                            }else{
+                                $('.post.active').removeClass('active');
+                            }
+                });
+                const fontSize = size * 7.5;
+                newDiv.find('.addpost-content').css('font-size', fontSize*1.2 + 'px');
+                newDiv.on('contextmenu', function (event) {
+                            event.preventDefault();
+                            if (!$('.post.active').length) {
+                                $(this).toggleClass('active');
+                            }else{
+                                $('.post.active').removeClass('active');
+                            }
+                        });
+                $("body").append(newDiv);
+                
+            });
+
+            inputText.addEventListener('input', function () {
+                const userInput = inputText.value;
+                if (newDiv) {
+                    newDiv.find('.addpost-content').text(userInput);
+                }
             });
 
             inputText.addEventListener('keyup', function (e) {
@@ -288,3 +314,8 @@
     </script>
 </body>
 </html>
+
+
+<!-- 새로 작성한 코드 우클릭 했을때 확대안됨,  -->
+<!-- 글자수 많아지면 내용이 삐져나감 -->
+<!-- 배포해보고 맥북으로 어떻게 보이는지 확인 해야함-->
