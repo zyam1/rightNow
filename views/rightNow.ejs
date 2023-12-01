@@ -104,7 +104,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             var modalContainer = document.getElementById('modalContainer');
             var inputText = document.getElementById('inputText');
-            var x_coordinate, y_coordinate,image_number ;
+            var x_coordinate, y_coordinate,image_number ,size ,rotation;
+            var newDiv;
 
             document.getElementById('goMainButton').addEventListener('click', function (event) {
                 event.stopPropagation(); // 상위 이벤트 전파 중지
@@ -113,8 +114,10 @@
                 event.stopPropagation(); // 상위 이벤트 전파 중지
             });
 
+            
             function showModal() {
                 if (!$('.post.active').length){
+                    modalContainer.classList.add('modal-open');
                     modalContainer.style.display = 'flex';
                     inputText.value = ''; // 입력값 초기화
                     inputText.focus();
@@ -123,7 +126,16 @@
             }
 
             function hideModal() {
+                modalContainer.classList.remove('modal-open');
                 modalContainer.style.display = 'none';
+                if (!inputText.value.trim()) {
+                    // 내용이 없는 경우에만 newDiv 삭제
+                    if (newDiv) {
+                        newDiv.remove(); // 활성화된 post 삭제
+                        newDiv = null; // newDiv 변수 초기화
+                    }
+                }
+                
             }
 
             function handleSubmit() {
@@ -132,7 +144,9 @@
                 if (!userInput) {
                     // 내용이 없을 경우 경고창을 띄우고 함수 종료
                     alert('내용을 입력해주세요.');
-                    location.reload();
+                    // location.reload();
+                    hideModal();
+                    //여기서 생성한거 지워야하는데
                     return;
                 }
                 hideModal();
@@ -140,9 +154,7 @@
                 
                 var userInput = inputText.value;
 
-                var size = Math.floor(Math.random() * 5) + 1;
-                var rotation = Math.floor(Math.random() * 9) - 4;
-
+                
 
                 console.log(`x:${x_coordinate} y:${y_coordinate} 이미지 넘버:${image_number} 내용:${userInput} 사이즈:${size} 회전:${rotation}`);
                 var data = {
@@ -157,39 +169,7 @@
                 axios.post('/uploadPost', data)
                     .then(function (response) {
                         console.log('데이터가 성공적으로 전송되었습니다.' );
-                        const newDiv = $(`
-                        
-                        <div class="post">
-                            <img src="/static/img/1x/post_image_${image_number}.svg" alt="Post Image">
-                            <div class="addpost-content"><p class="word-wrap">${userInput}</p></div>
-                        </div>
-                        
-                    
-                        `);
-
-                    const fontSize = size * 7.5; // 예시: size에 따라 적절한 값을 조절
-                    newDiv.find('.addpost-content').css('font-size', fontSize*1.2 + 'px');
-                    newDiv.css({
-                        left: x_coordinate- (size * 50) / 2 + 'px',
-                        top: y_coordinate- (size * 50) / 2 + 'px',
-                        width: size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
-                        transform: `rotate(${rotation}deg)`,//회전//정령부분에선 이걸빼면됨
-                        padding : "0px",
-                    });
-                    newDiv.on('contextmenu', function (event) {
-                            event.preventDefault();
-                            if (!$('.post.active').length) {
-                                $(this).toggleClass('active');
-                            }else{
-                                $('.post.active').removeClass('active');
-                            }
-                        });
-                     $("body").append(newDiv);
-
-
-
-
-                        //location.reload();
+      
                         
                     })
                     .catch(function (error) {
@@ -198,9 +178,22 @@
             }
 
             document.addEventListener('click', function (event) {
+                if (modalContainer.classList.contains('modal-open')) {
+                    // 모달이 열려있으면 실행하지 않고 모달을 닫음
+                    if (newDiv) {
+                        newDiv.remove();
+                        newDiv = null;
+                    }
+                    hideModal();
+                    return;
+                }
+
                 x_coordinate = event.clientX;
                 y_coordinate = event.clientY;
                 image_number = Math.floor(Math.random() * 25) + 1;
+                size = Math.floor(Math.random() * 5) + 1;
+                rotation = Math.floor(Math.random() * 9) - 4;
+
                 if (image_number === 1 || image_number === 10 || image_number === 11 || image_number === 12 || image_number === 21) {
                     modalContainer.style.backgroundColor = '#FAFAAA';
                 }
@@ -216,7 +209,58 @@
                 else {
                     modalContainer.style.backgroundColor = '#4371C4'; // 기본 배경 색상
                 }
+                
                 showModal();
+             
+
+              if (!$('.post.active').length) {
+                newDiv = $(`
+                        
+                        <div class="post">
+                            <img src="/static/img/1x/post_image_${image_number}.svg" alt="Post Image">
+                            <div class="addpost-content"></div>
+                        </div>
+                        
+                    
+                `);
+
+                newDiv.css({
+                        left: x_coordinate- (size * 50) / 2 + 'px',
+                        top: y_coordinate- (size * 50) / 2 + 'px',
+                        width: size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
+                        transform: `rotate(${rotation}deg)`,//회전//정령부분에선 이걸빼면됨
+                        padding : "0px",
+                });
+                
+                            newDiv.on('contextmenu',function (event) {
+                                event.preventDefault();
+                                if (modalContainer.style.display === 'flex') {
+                                    
+                                    return;
+                                }
+                                if (!$('.post.active').length) {
+                                    $(this).toggleClass('active');
+                                }else{
+                                    $('.post.active').removeClass('active');
+                                }
+                            }); 
+                
+                
+                const fontSize = size * 7.5;
+                newDiv.find('.addpost-content').css('font-size', fontSize*1.2 + 'px');
+               
+                $("body").append(newDiv);
+             
+             }    
+                
+                
+            });
+
+            inputText.addEventListener('input', function () {
+                const userInput = inputText.value;
+                if (newDiv) {
+                    newDiv.find('.addpost-content').text(userInput);
+                }
             });
 
             inputText.addEventListener('keyup', function (e) {
@@ -225,6 +269,15 @@
                 }
             });
            
+            // 모달 내부 클릭 시 모달 닫기 방지
+            document.getElementById('modalContainer').addEventListener('click', function (event) {
+                event.stopPropagation(); // 상위 이벤트 전파 중지
+            });
+
+            // 모달 안의 입력창 클릭 시 모달이 사라지는 것 방지
+            document.getElementById('inputText').addEventListener('click', function (event) {
+                event.stopPropagation(); // 상위 이벤트 전파 중지
+            });
         });
 
         //post 표시
@@ -253,7 +306,7 @@
                         
                             <div class="post">
                                 <img src="/static/img/1x/post_image_${res.data[i].image_number}.svg" alt="Post Image">
-                                <div class="addpost-content"><p class="word-wrap">${res.data[i].content}</p></div>
+                                <div class="addpost-content">${res.data[i].content}</div>
                             </div>
                             
                         
@@ -268,14 +321,21 @@
                             transform: `rotate(${res.data[i].rotation * 1.5}deg)`,//회전//정령부분에선 이걸빼면됨
                             padding : "0px",
                         });
-                        newDiv.on('contextmenu', function (event) {
-                            event.preventDefault();
-                            if (!$('.post.active').length) {
-                                $(this).toggleClass('active');
-                            }else{
-                                $('.post.active').removeClass('active');
-                            }
-                        });
+                        if(!modalContainer.classList.contains('modal-open')){
+                            newDiv.on('contextmenu', function (event) {
+                                event.preventDefault();
+                                if (modalContainer.style.display === 'flex') {
+                                    
+                                    return;
+                                }
+                                if (!$('.post.active').length) {
+                                    $(this).toggleClass('active');
+                                }else{
+                                    $('.post.active').removeClass('active');
+                                }
+                            }); 
+                        }
+                        
 
                          $("body").append(newDiv);
                     }
@@ -296,3 +356,8 @@
     </script>
 </body>
 </html>
+
+
+
+<!-- 글자수 많아지면 내용이 삐져나감 -->
+<!-- 배포해보고 맥북으로 어떻게 보이는지 확인 해야함-->

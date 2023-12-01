@@ -117,6 +117,7 @@
             
             function showModal() {
                 if (!$('.post.active').length){
+                    modalContainer.classList.add('modal-open');
                     modalContainer.style.display = 'flex';
                     inputText.value = ''; // 입력값 초기화
                     inputText.focus();
@@ -125,7 +126,16 @@
             }
 
             function hideModal() {
+                modalContainer.classList.remove('modal-open');
                 modalContainer.style.display = 'none';
+                if (!inputText.value.trim()) {
+                    // 내용이 없는 경우에만 newDiv 삭제
+                    if (newDiv) {
+                        newDiv.remove(); // 활성화된 post 삭제
+                        newDiv = null; // newDiv 변수 초기화
+                    }
+                }
+                
             }
 
             function handleSubmit() {
@@ -134,7 +144,9 @@
                 if (!userInput) {
                     // 내용이 없을 경우 경고창을 띄우고 함수 종료
                     alert('내용을 입력해주세요.');
-                    location.reload();
+                    // location.reload();
+                    hideModal();
+                    //여기서 생성한거 지워야하는데
                     return;
                 }
                 hideModal();
@@ -166,6 +178,16 @@
             }
 
             document.addEventListener('click', function (event) {
+                if (modalContainer.classList.contains('modal-open')) {
+                    // 모달이 열려있으면 실행하지 않고 모달을 닫음
+                    if (newDiv) {
+                        newDiv.remove();
+                        newDiv = null;
+                    }
+                    hideModal();
+                    return;
+                }
+
                 x_coordinate = event.clientX;
                 y_coordinate = event.clientY;
                 image_number = Math.floor(Math.random() * 25) + 1;
@@ -187,46 +209,49 @@
                 else {
                     modalContainer.style.backgroundColor = '#4371C4'; // 기본 배경 색상
                 }
+                
                 showModal();
+             
 
-                //
-                newDiv = $(`
+                if (!$('.post.active').length) {
+                    newDiv = $(`
+                            
+                            <div class="post">
+                                <img src="/static/img/1x/post_image_${image_number}.svg" alt="Post Image">
+                                <div class="addpost-content"></div>
+                            </div>
+                            
                         
-                        <div class="post">
-                            <img src="/static/img/1x/post_image_${image_number}.svg" alt="Post Image">
-                            <div class="addpost-content"></div>
-                        </div>
+                    `);
+
+                    newDiv.css({
+                            left: x_coordinate- (size * 50) / 2 + 'px',
+                            top: y_coordinate- (size * 50) / 2 + 'px',
+                            width: size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
                         
+                            padding : "0px",
+                    });
                     
-                `);
-
-                newDiv.css({
-                        left: x_coordinate- (size * 50) / 2 + 'px',
-                        top: y_coordinate- (size * 50) / 2 + 'px',
-                        width: size * 75 + 'px', // 예시: size에 따라 이미지 크기를 조절
-                       
-                        padding : "0px",
-                });
-
-                newDiv.on('contextmenu', function (event) {
-                            event.preventDefault();
-                            if (!$('.post.active').length) {
-                                $(this).toggleClass('active');
-                            }else{
-                                $('.post.active').removeClass('active');
-                            }
-                });
-                const fontSize = size * 7.5;
-                newDiv.find('.addpost-content').css('font-size', fontSize*1.2 + 'px');
-                newDiv.on('contextmenu', function (event) {
-                            event.preventDefault();
-                            if (!$('.post.active').length) {
-                                $(this).toggleClass('active');
-                            }else{
-                                $('.post.active').removeClass('active');
-                            }
-                        });
-                $("body").append(newDiv);
+                                newDiv.on('contextmenu',function (event) {
+                                    event.preventDefault();
+                                    if (modalContainer.style.display === 'flex') {
+                                        
+                                        return;
+                                    }
+                                    if (!$('.post.active').length) {
+                                        $(this).toggleClass('active');
+                                    }else{
+                                        $('.post.active').removeClass('active');
+                                    }
+                                }); 
+                    
+                    
+                    const fontSize = size * 7.5;
+                    newDiv.find('.addpost-content').css('font-size', fontSize*1.2 + 'px');
+                
+                    $("body").append(newDiv);
+                }    
+                
                 
             });
 
@@ -243,6 +268,15 @@
                 }
             });
            
+            // 모달 내부 클릭 시 모달 닫기 방지
+            document.getElementById('modalContainer').addEventListener('click', function (event) {
+                event.stopPropagation(); // 상위 이벤트 전파 중지
+            });
+
+            // 모달 안의 입력창 클릭 시 모달이 사라지는 것 방지
+            document.getElementById('inputText').addEventListener('click', function (event) {
+                event.stopPropagation(); // 상위 이벤트 전파 중지
+            });
         });
 
         //post 표시
@@ -286,14 +320,21 @@
                          
                             padding : "0px",
                         });
-                        newDiv.on('contextmenu', function (event) {
-                            event.preventDefault();
-                            if (!$('.post.active').length) {
-                                $(this).toggleClass('active');
-                            }else{
-                                $('.post.active').removeClass('active');
-                            }
-                        });
+                        if(!modalContainer.classList.contains('modal-open')){
+                            newDiv.on('contextmenu', function (event) {
+                                event.preventDefault();
+                                if (modalContainer.style.display === 'flex') {
+                                    
+                                    return;
+                                }
+                                if (!$('.post.active').length) {
+                                    $(this).toggleClass('active');
+                                }else{
+                                    $('.post.active').removeClass('active');
+                                }
+                            }); 
+                        }
+                        
 
                          $("body").append(newDiv);
                     }
@@ -316,6 +357,6 @@
 </html>
 
 
-<!-- 새로 작성한 코드 우클릭 했을때 확대안됨,  -->
+
 <!-- 글자수 많아지면 내용이 삐져나감 -->
 <!-- 배포해보고 맥북으로 어떻게 보이는지 확인 해야함-->
