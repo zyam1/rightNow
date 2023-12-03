@@ -57,7 +57,7 @@ textarea:focus {outline: none;}
 .sort-button {
     float: right;
     position: relative;
-    right: 20px; /* 조절하고 싶은 오른쪽으로의 이동 거리 (원하는 값으로 조정) */
+    right: 120px; /* 조절하고 싶은 오른쪽으로의 이동 거리 (원하는 값으로 조정) */
     top:20px;
     z-index: 2000;
     display: inline;
